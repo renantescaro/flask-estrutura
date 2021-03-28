@@ -1,0 +1,18 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+<link rel="stylesheet" href="{{ url_for('static',filename='styles/login.css') }}">
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <div class="fadeIn first">
+            <img src="https://recursos.kidy.com.br/i/logo.png" style="width: 30%;" id="icon" alt="User Icon" />
+        </div>
+        <form>
+            <input type="text" id="login" class="fadeIn second" name="login" placeholder="usuário">
+            <input type="password" id="password" class="fadeIn third" name="login" placeholder="senha">
+            <input type="submit" class="fadeIn fourth" value="Entrar">
+        </form>
+        <div id="formFooter">
+            <a class="underlineHover" href="#">Esqueci a senha</a>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
