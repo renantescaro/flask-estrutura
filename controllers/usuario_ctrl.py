@@ -21,4 +21,6 @@ class UsuarioCtrl:
 
 
     def verificar_usuario_senha(self, usuario, senha):
-        pass
+        if usuario == 'renan' and senha == '123':
+            return True
+        return False

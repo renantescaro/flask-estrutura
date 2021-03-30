@@ -5,9 +5,9 @@
         <div class="fadeIn first">
             <img src="https://recursos.kidy.com.br/i/logo.png" style="width: 30%;" id="icon" alt="User Icon" />
         </div>
-        <form>
-            <input type="text" id="login" class="fadeIn second" name="login" placeholder="usuário">
-            <input type="password" id="password" class="fadeIn third" name="login" placeholder="senha">
+        <form method="POST" action="/verificar-login">
+            <input type="text" id="login" class="fadeIn second" name="usuario" placeholder="usuário">
+            <input type="password" id="password" class="fadeIn third" name="senha" placeholder="senha">
             <input type="submit" class="fadeIn fourth" value="Entrar">
         </form>
         <div id="formFooter">
