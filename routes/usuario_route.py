@@ -13,7 +13,6 @@ class UsuarioRoute:
 
 
     def listar(self):
-        usuarios =  UsuarioDao().selecionar_json()
         return render_template('usuario/listagem.html',
-            dados  = usuarios,
+            dados  = UsuarioDao().selecionar_json(),
             titulo = 'Listagem de Usuarios')
