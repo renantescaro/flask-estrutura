@@ -1,5 +1,6 @@
 from mysql import connector
 import inspect
+import jsonpickle
 
 class Banco:
     def __init__(self, tabela, entidade):
@@ -12,7 +13,7 @@ class Banco:
             database = "teste")
 
 
-    def selecionar(self, campos='*', where='1=1'):
+    def selecionar_obj(self, campos='*', where='1=1'):
         mycursor = self.mydb.cursor()
         mycursor.execute(
             ' SELECT ' + str(campos)      +
@@ -20,15 +21,17 @@ class Banco:
             ' WHERE '  + str(where)       
 
         )
-        return mycursor.fetchall()
+        return self.setar( mycursor.fetchall() )
+
+
+    def selecionar_json(self, campos='*', where='1=1'):
+        return jsonpickle.encode(
+            self.selecionar_obj(campos, where),
+            unpicklable=False)
 
 
     def executar(self):
         pass
-
-
-    def selecionar_tudo(self):
-        return self.selecionar('SELECT * FROM '+str(self.tabela))
 
     
     def deletar_tudo(self):
