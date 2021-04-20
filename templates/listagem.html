@@ -1,0 +1,27 @@
+<link rel="stylesheet" href="/static/css/tabulator_bootstrap4.css">
+
+<div id="dvDados" style="display: none;">
+    {{ dados }}
+</div>
+<div style="margin-left: 30px ; padding: 0px; width: 100%;" id="tblDados"></div>
+
+<script type="text/javascript" src="https://oss.sheetjs.com/sheetjs/xlsx.full.min.js"></script>
+<script src="/static/js/tabulator.min.js"></script>
+<script>
+    console.log(document.getElementById('dvDados').textContent)
+
+    var table = new Tabulator("#tblDados", {
+        layout:"fitColumns",
+        pagination:"local",
+        height:"780px",
+        paginationSize:70,
+        paginationSizeSelector:[10, 25, 50, 200],
+        movableColumns:true,
+        data:( JSON.parse(document.getElementById('dvDados').textContent) ),
+        columns:[
+            {title:"id",    field:"id",    width:150, headerFilter:"input"},
+            {title:"login", field:"login", width:150, headerFilter:"input"},
+            {title:"senha", field:"senha", width:150, headerFilter:"input"},
+        ],
+    })
+</script>
