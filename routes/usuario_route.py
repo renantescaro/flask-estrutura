@@ -13,15 +13,7 @@ class UsuarioRoute:
 
 
     def listar(self):
-        objects_list = []
-        for row in UsuarioDao().selecionar():
-            d = collections.OrderedDict()
-            d["id"]    = row[0]
-            d["login"] = row[1]
-            d["senha"] = row[2]
-            objects_list.append(d)
-        usuarios = json.dumps(objects_list)
-
+        usuarios =  UsuarioDao().selecionar_json()
         return render_template('usuario/listagem.html',
             dados  = usuarios,
             titulo = 'Listagem de Usuarios')
