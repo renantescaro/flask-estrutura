@@ -1,5 +1,3 @@
-import json
-import collections
 from flask import Flask, jsonify, render_template, request, redirect, url_for, session
 from controllers.usuario_ctrl import UsuarioCtrl
 from daos.usuario_dao import UsuarioDao
@@ -14,5 +12,5 @@ class UsuarioRoute:
 
     def listar(self):
         return render_template('usuario/listagem.html',
-            dados  = UsuarioDao().selecionar_json(),
+            dados  = UsuarioDao().selecionar_json('id, usuario'),
             titulo = 'Listagem de Usuarios')
