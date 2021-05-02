@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, render_template, request, redirect, url_for, session
-from controllers.usuario_ctrl import UsuarioCtrl
+from controllers.controle_acesso_ctrl import ControleAcessoCtrl
 
 class LoginRoute:
     def __init__(self, app):
@@ -38,8 +38,8 @@ class LoginRoute:
     def verificar_login(self):
         usuario = request.form.get('usuario')
         senha   = request.form.get('senha')
-        if UsuarioCtrl().verificar_usuario_senha(usuario, senha):
+        if ControleAcessoCtrl().verificar_usuario_senha(usuario, senha):
             session['usuario'] = usuario
-            session['senha']  = senha
+            session['senha']   = senha
             return redirect(url_for('inicial'))
         return redirect(url_for('login'))
