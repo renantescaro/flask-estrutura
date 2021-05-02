@@ -10,16 +10,40 @@
 <script>
     let dados_json  = JSON.parse(document.getElementById('dvDados').textContent)
     let chaves_json = Object.keys(dados_json[0])
+    var colunas     = []
 
-    let colunas = []
-    chaves_json.forEach(e => {
-        colunas.push({
-            title:e,
-            field:e,
-            headerFilter:"input"
+    // TITULOS DAS COLUNAS DA TABELA
+    // caso o template que importar a listagem tenha chaves diferentes do padrão
+    dvChaves = document.getElementById('dvChaves')
+    if (dvChaves != undefined){
+        chaves_json = JSON.parse(dvChaves.textContent)
+        chaves_json.forEach(e => {
+            colunas.push({
+                title        : e.titulo,
+                field        : e.campo,
+                headerFilter : e.busca
+            })
         })
-    })
+    }else{
+        chaves_json.forEach(e => {
+            colunas.push({
+                title : e,
+                field : e,
+                headerFilter : "input"
+            })
+        })
+    }
 
+    
+    // BOTÕES DE AÇÕES
+    let btnEditar       = {}
+    btnEditar.field     = 'id'
+    btnEditar.formatter = function(cell, formatterParams, onRendered){
+            return "<button class='btn btn-primary' onclick='editar("+cell.getValue()+")'>Editar</button>"
+        }
+    colunas.push(btnEditar)
+
+    // TABELA TABULATOR
     var table = new Tabulator("#tblDados", {
         layout:"fitColumns",
         pagination:"local",
@@ -30,4 +54,9 @@
         data:( dados_json ),
         columns:colunas
     })
+
+    // BOTÃO EDITAR
+    function editar(id){
+        window.location.href = window.location.href.replace('listar', id+'/editar')
+    }
 </script>
