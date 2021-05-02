@@ -8,20 +8,26 @@
 <script type="text/javascript" src="https://oss.sheetjs.com/sheetjs/xlsx.full.min.js"></script>
 <script src="/static/js/tabulator.min.js"></script>
 <script>
-    console.log(document.getElementById('dvDados').textContent)
+    let dados_json  = JSON.parse(document.getElementById('dvDados').textContent)
+    let chaves_json = Object.keys(dados_json[0])
+
+    let colunas = []
+    chaves_json.forEach(e => {
+        colunas.push({
+            title:e,
+            field:e,
+            headerFilter:"input"
+        })
+    })
 
     var table = new Tabulator("#tblDados", {
         layout:"fitColumns",
         pagination:"local",
-        height:"780px",
-        paginationSize:70,
-        paginationSizeSelector:[10, 25, 50, 200],
+        height:"500px",
+        paginationSize:10,
+        paginationSizeSelector:[10, 50, 100, 200],
         movableColumns:true,
-        data:( JSON.parse(document.getElementById('dvDados').textContent) ),
-        columns:[
-            {title:"id",    field:"id",    width:150, headerFilter:"input"},
-            {title:"login", field:"login", width:150, headerFilter:"input"},
-            {title:"senha", field:"senha", width:150, headerFilter:"input"},
-        ],
+        data:( dados_json ),
+        columns:colunas
     })
 </script>
