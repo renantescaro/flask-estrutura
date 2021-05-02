@@ -1,0 +1,10 @@
+<div class="form-group">
+    <form action="">
+        {% for d in dados %}
+            <label for="{{d.id}}">{{d.label}}</label>
+            <input type="{{d.tipo}}" class="form-control" id="{{d.id}}" name="{{d.nome}}" value="{{d.value}}">
+        {% endfor %}
+        <button class="btn btn-primary">Salvar</button>
+        <button class="btn btn-danger">Cancelar</button>
+    </form>
+</div>
