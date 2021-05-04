@@ -2,6 +2,7 @@ from mysql import connector
 import json
 import inspect
 import jsonpickle
+from utils.debug import Debug
 
 class Banco:
     def __init__(self, tabela:str, entidade):
@@ -35,10 +36,20 @@ class Banco:
     
     def editar(self, campos, where):
         mycursor = self.mydb.cursor()
-        return mycursor.execute(
-            ' UPDATE ' + self.tabela +
-            ' SET    ' + campos +
-            ' WHERE  ' + where )
+        sql = (' UPDATE ' + self.tabela +
+               ' SET    ' + campos +
+               ' WHERE  ' + where )
+        mycursor.execute(sql)
+        self.mydb.commit()
+
+
+    def inserir(self, campos, valores):
+        mycursor = self.mydb.cursor()
+        sql = (' INSERT INTO ' + self.tabela +
+               ' (' + campos +')'
+               ' VALUES(' + valores +')' )
+        mycursor.execute(sql)
+        self.mydb.commit()
 
     
     def deletar_tudo(self):
