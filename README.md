@@ -1,4 +1,4 @@
 ### simples estrutura em Flask para meus projetos
 
 #### Implementar:
-* adicionar template padrão para listagem
+* Resolver erro com injeção de SQL
