@@ -3,16 +3,17 @@ import json
 import inspect
 import jsonpickle
 from flaskr.utils.debug import Debug
+from flaskr.utils.config import Config
 
 class Banco:
     def __init__(self, tabela:str, entidade):
         self.tabela   = tabela
         self.entidade = entidade
         self.mydb     = connector.connect(
-            host      = "localhost",
-            user      = "root",
-            password  = "",
-            database  = "teste" )
+            host      = Config().get('host'),
+            user      = Config().get('user'),
+            password  = Config().get('password'),
+            database  = Config().get('database') )
 
 
     def selecionar_obj(self, campos:str='*', where:str='1=1'):
@@ -45,8 +46,8 @@ class Banco:
     
     def deletar(self, id):
         mycursor = self.mydb.cursor()
-        sql = (" DELETE FROM " + self.tabela +
-               " WHERE id = %s" )
+        sql = (' DELETE FROM ' + self.tabela +
+               ' WHERE id = %s' )
         mycursor.execute(sql, (id,) )
         self.mydb.commit()
 
