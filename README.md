@@ -8,6 +8,6 @@
 
 
 ### executar aplicação
-> set FLASK_APP=flaskr
-> set FLASK_ENV=development
-> flask run
+* > set FLASK_APP=flaskr
+* > set FLASK_ENV=development
+* > flask run
