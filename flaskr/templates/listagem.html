@@ -1,0 +1,89 @@
+<link rel="stylesheet" href="/static/css/tabulator_bootstrap4.css">
+
+<div id="dvDados" style="display: none;">
+    {{ dados }}
+</div>
+
+<a class="btn btn-warning" style="color: white;" href="novo">Novo</a>
+<div style="margin-left: 30px ; padding: 0px; width: 100%;" id="tblDados"></div>
+
+<script type="text/javascript" src="https://oss.sheetjs.com/sheetjs/xlsx.full.min.js"></script>
+<script src="/static/js/tabulator.min.js"></script>
+<script>
+    let dados_json  = JSON.parse(document.getElementById('dvDados').textContent)
+    let chaves_json = Object.keys(dados_json[0])
+    var colunas     = []
+
+    // TITULOS DAS COLUNAS DA TABELA
+    // caso o template que importar a listagem tenha chaves diferentes do padrão
+    dvChaves = document.getElementById('dvChaves')
+    if (dvChaves != undefined){
+        chaves_json = JSON.parse(dvChaves.textContent)
+        chaves_json.forEach(e => {
+            colunas.push({
+                title        : e.titulo,
+                field        : e.campo,
+                headerFilter : e.busca
+            })
+        })
+    }else{
+        chaves_json.forEach(e => {
+            colunas.push({
+                title : e,
+                field : e,
+                headerFilter : "input"
+            })
+        })
+    }
+
+    
+    // BOTÕES DE AÇÕES
+    let btnEditar       = {}
+    btnEditar.field     = 'id'
+    btnEditar.formatter = function(cell, formatterParams, onRendered){
+            let div        = document.createElement('div')
+            let btnEditar  = document.createElement('a')
+            let btnExcluir = document.createElement('a')
+
+            btnEditar.className   = 'btn btn-primary'
+            btnEditar.textContent = 'Editar'
+            btnEditar.onclick = function(){
+                editar(cell.getValue())
+            }
+
+            btnExcluir.className   = 'btn btn-danger'
+            btnExcluir.textContent = 'Excluir'
+            btnExcluir.onclick = function(){
+                if(confirm('Deseja realmente excluir o registro?')){
+                    excluir(cell.getValue())
+                }
+            }
+
+            div.append(btnEditar)
+            div.append(btnExcluir)
+            return div
+        }
+    colunas.push(btnEditar)
+
+    // TABELA TABULATOR
+    var table = new Tabulator("#tblDados", {
+        layout:"fitColumns",
+        pagination:"local",
+        height:"500px",
+        paginationSize:10,
+        paginationSizeSelector:[10, 50, 100, 200],
+        movableColumns:true,
+        data:( dados_json ),
+        columns:colunas
+    })
+
+    // botão editar
+    function editar(id){
+        window.location.href = window.location.href.replace('listar', id+'/editar')
+    }
+
+    // botão excluir
+    function excluir(id){
+        window.location.href = window.location.href.replace('listar', id+'/excluir')
+    }
+</script>

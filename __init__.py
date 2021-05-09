@@ -1,5 +1,5 @@
 from flask import Flask, render_template, jsonify, url_for, send_file, redirect, session, request
-from routes.rotas import Rotas
+from flaskr.routes.rotas import Rotas
 
 app = Flask('app_flask', static_url_path='/static', static_folder='static')    
 Rotas(app)
