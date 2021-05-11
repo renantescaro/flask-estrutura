@@ -8,8 +8,10 @@ class GrupoUsuarioRoute:
     def __init__(self, app):
         self._app = app
 
-        self._app.add_url_rule('/usuario/grupo/listar',
-            'usuario/grupo/listar', self.listar )
+        self._app.add_url_rule(
+            '/usuario/grupo/listar',
+            'usuario/grupo/listar',
+            self.listar )
 
         self._app.add_url_rule(
             '/usuario/grupo/<id>/editar',
@@ -23,16 +25,19 @@ class GrupoUsuarioRoute:
 
         self._app.add_url_rule(
             '/usuario/grupo/salvar',
+            'usuario-grupo-salvar',
             methods   = ['POST'],
             view_func = self.inserir )
         
         self._app.add_url_rule(
             '/usuario/grupo/<id>/salvar',
+            'usuario-grupo-id-salvar',
             methods   = ['POST'],
             view_func = self.atualizar )
         
         self._app.add_url_rule(
             '/usuario/grupo/<id>/excluir',
+            'usuario-grupo-id-excluir',
             methods   = ['GET'],
             view_func = self.deletar )
 
@@ -95,17 +100,21 @@ class GrupoUsuarioRoute:
     def _campos(self, entidade):
         dados_formulario = []
         dados_formulario.append({
+            'tag'   : 'input',
             'id'    : 'id',
             'tipo'  : 'text',
             'name'  : 'id',
             'label' : 'Id',
+            'class' : 'form-control',
             'value' : entidade.id
         })
         dados_formulario.append({
+            'tag'   : 'input',
             'id'    : 'descricao',
             'tipo'  : 'text',
             'name'  : 'descricao',
             'label' : 'Descrição',
+            'class' : 'form-control',
             'value' : entidade.descricao
         })
         return dados_formulario

@@ -2,9 +2,14 @@
     <form action="salvar" method="POST">
         {% for d in dados %}
             <label for="{{d.id}}">{{d.label}}</label>
-            <input type="{{d.tipo}}" class="form-control" id="{{d.id}}" name="{{d.name}}" value="{{ '' if d.value==None else d.value }}">
+            {% if d.tag == 'input': %}
+                <input type="{{d.tipo}}" class="{{d.class}}" id="{{d.id}}" name="{{d.name}}" value="{{ '' if d.value==None else d.value }}"/>
+            {% else %}
+                <{{d.tag}} type="{{d.tipo}}" class="{{d.class}}" id="{{d.id}}" name="{{d.name}}" value="{{ '' if d.value==None else d.value }}">
+                    {{d.conteudo_tag}}
+                </{{d.tag}}>
+            {% endif %}
         {% endfor %}
-        {{campos_adicionais}}
         <br>
         <button class="btn btn-primary">Salvar</button>
         <button class="btn btn-danger">Cancelar</button>

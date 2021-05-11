@@ -1,8 +1,11 @@
 import json
 from flask import Flask, jsonify, render_template, request, redirect, url_for, session
 from flaskr.controllers.usuario_ctrl import UsuarioCtrl
+from flaskr.controllers.controle_acesso_ctrl import ControleAcessoCtrl
 from flaskr.daos.usuario_dao import UsuarioDao
+from flaskr.daos.grupo_usuario_dao import GrupoUsuarioDao
 from flaskr.entities.usuario import Usuario
+from flaskr.utils.debug import Debug
 
 class UsuarioRoute:
     def __init__(self, app):
@@ -10,7 +13,8 @@ class UsuarioRoute:
 
         self._app.add_url_rule(
             '/usuario/listar',
-            'usualio/listar', self.listar)
+            'usualio/listar',
+            self.listar )
 
         self._app.add_url_rule(
             '/usuario/novo',
@@ -20,7 +24,25 @@ class UsuarioRoute:
         self._app.add_url_rule(
             '/usuario/<id>/editar',
             '/usuario/id/editar',
-            self.editar)
+            self.editar )
+
+        self._app.add_url_rule(
+            '/usuario/<id>/salvar',
+            'usuario-id-salvar',
+            methods   = ['POST'],
+            view_func = self.atualizar )
+
+        self._app.add_url_rule(
+            '/usuario/salvar',
+            'usuario-salvar',
+            methods   = ['POST'],
+            view_func = self.inserir )
+
+        self._app.add_url_rule(
+            '/usuario/<id>/excluir',
+            'usuario-id-excluir',
+            methods   = ['GET'],
+            view_func = self.deletar )
 
 
     def listar(self):
@@ -58,34 +80,80 @@ class UsuarioRoute:
             titulo = 'Editar Usuário' )
 
 
+    def inserir(self):
+        usuario = request.form.get('usuario')
+        grupo   = request.form.get('grupo')
+        senha   = request.form.get('senha')
+
+        senha = ControleAcessoCtrl().criar_senha(senha)
+
+        if grupo == None:
+            grupo = 1
+
+        UsuarioDao().inserir(
+            campos  = 'usuario, senha, id_grupo',
+            valores = "'"+usuario+"','"+senha+"',"+str(grupo) )
+        return redirect(url_for('usualio/listar'))
+
+
+    def atualizar(self, id):
+        descricao = request.form.get('descricao')
+        UsuarioDao().editar(
+            campos = ' descricao="'+descricao+'"',
+            where  = ' id='+ str(id) )
+        return redirect(url_for('usualio/listar'))
+
+
+    def deletar(self, id):
+        GrupoUsuarioDao().deletar(
+            id = id )
+        return redirect(url_for('usuario/listar') )
+
+
     def _campos(self, entidade:Usuario):
         dados_formulario = []
         dados_formulario.append({
+            'tag'   : 'input',
             'id'    : 'id',
             'tipo'  : 'text',
             'name'  : 'id',
             'label' : 'Id',
-            'value' : entidade.id
+            'value' : entidade.id,
+            'class' : 'form-control'
         })
         dados_formulario.append({
+            'tag'   : 'input',
             'id'    : 'usuario',
             'tipo'  : 'text',
             'name'  : 'usuario',
             'label' : 'Usuário',
-            'value' : entidade.usuario
+            'value' : entidade.usuario,
+            'class' : 'form-control'
         })
         dados_formulario.append({
+            'conteudo_tag' : self._itens_grupo(),
+            'tag'   : 'select',
             'id'    : 'grupo',
             'tipo'  : 'select',
             'name'  : 'grupo',
             'label' : 'Grupo',
-            'value' : ''
+            'value' : None,
+            'class' : 'form-select',
         })
         dados_formulario.append({
+            'tag'   : 'input',
             'id'    : 'senha',
             'tipo'  : 'password',
             'name'  : 'senha',
             'label' : 'Senha',
-            'value' : entidade.senha
+            'value' : entidade.senha,
+            'class' : 'form-control'
         })
         return dados_formulario
+
+
+    def _itens_grupo(self):
+        options = ''
+        for grupo in GrupoUsuarioDao().selecionar_obj():
+            options = options + '<option value="'+str(grupo.id)+'">'+grupo.descricao+'</option>'
+        return options

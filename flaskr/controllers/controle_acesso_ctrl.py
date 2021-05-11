@@ -10,9 +10,9 @@ class ControleAcessoCtrl:
             return self._comparar_usuario_senha(usuario, senha)
 
     
-    def criar_senha(self, senha):
+    def criar_senha(self, senha:str):
         salt = bcrypt.gensalt()
-        return bcrypt.hashpw(senha, salt)
+        return str((bcrypt.hashpw(bytes(senha, 'utf-8'), salt)).decode("utf-8"))
 
     
     def alterar_senha_usuario(self, usuario, senha_antiga, senha_nova):

@@ -11,5 +11,5 @@ class Rotas:
     
     def _iniciar_rotas(self):
         LoginRoute(self._app)
-        UsuarioRoute(self._app)
         GrupoUsuarioRoute(self._app)
+        UsuarioRoute(self._app)
