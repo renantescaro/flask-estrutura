@@ -6,6 +6,9 @@
 #### Implementar:
 * Resolver erro com injeção de SQL
 
+### dependencias
+* pip install bcrypt
+* pip install jsonpickle
 
 ### executar aplicação
 * > set FLASK_APP=flaskr
