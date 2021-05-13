@@ -10,7 +10,7 @@ class UsuarioCtrl:
     def listar(self):
         return render_template(
             'usuario/listagem.html',
-            dados  = UsuarioDao().selecionar_json('id, usuario'),
+            dados  = UsuarioDao().selecionar_json('id, usuario, '),
             chaves = json.dumps([
                 {
                     'campo'  : 'id',
@@ -19,6 +19,10 @@ class UsuarioCtrl:
                 },{
                     'campo'  : 'usuario',
                     'titulo' : 'Usuário',
+                    'busca'  : 'input'
+                },{
+                    'campo'  : 'grupo',
+                    'titulo' : 'Grupo',
                     'busca'  : 'input'
                 } ]),
             titulo = 'Listagem de Usuários')
@@ -32,8 +36,7 @@ class UsuarioCtrl:
 
     
     def editar(self, id):
-        dados_formulario = []
-        dados_usuario    = UsuarioDao().selecionar_obj(
+        dados_usuario = UsuarioDao().selecionar_obj(
             where=' id = '+ str(id) )
 
         return render_template(
