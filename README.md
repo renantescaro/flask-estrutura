@@ -13,4 +13,5 @@
 ### executar aplicação
 * > set FLASK_APP=flaskr
 * > set FLASK_ENV=development
+* > set FLASK_RUN_HOST=192.168.1.182
 * > flask run
