@@ -1,7 +1,7 @@
 import json
 from flask import Flask, jsonify, render_template, request, redirect, url_for, session
 from flaskr.daos.usuario_grupo_dao import UsuarioGrupoDao
-from flaskr.entities.gupo_usuario import GrupoUsuario
+from flaskr.entities.usuario_grupo import UsuarioGrupo
 from flaskr.utils.debug import Debug
 
 class UsuarioGrupoCtrl:
@@ -24,7 +24,7 @@ class UsuarioGrupoCtrl:
 
     def novo(self):
         return render_template('formulario_padrao.html',
-            dados  = self._campos(GrupoUsuario()),
+            dados  = self._campos(UsuarioGrupo()),
             titulo = 'Novo Grupo de Usuários' )
 
 
@@ -37,7 +37,7 @@ class UsuarioGrupoCtrl:
             dados  = self._campos(grupo),
             titulo = 'Editar Grupo de Usuários' )
 
-    
+
     def inserir(self):
         descricao = request.form.get('descricao')
         UsuarioGrupoDao().inserir(
@@ -45,7 +45,7 @@ class UsuarioGrupoCtrl:
             valores = "'"+descricao+"'" )
         return redirect(url_for('usuario/grupo/listar'))
 
-    
+
     def atualizar(self, id):
         descricao = request.form.get('descricao')
         UsuarioGrupoDao().editar(
