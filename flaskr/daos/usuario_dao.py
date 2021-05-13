@@ -19,3 +19,7 @@ class UsuarioDao(Banco):
     def selecionar_por_id(self, id):
         return self.setar(
             linhas = self.selecionar(where='id='+str(id)) )
+
+
+    def selecionar_com_grupo(self):
+        self.executar()
