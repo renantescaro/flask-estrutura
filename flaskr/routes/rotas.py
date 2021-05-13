@@ -8,7 +8,7 @@ class Rotas:
         self._app = app
         self._iniciar_rotas()
 
-    
+
     def _iniciar_rotas(self):
         LoginRoute(self._app)
         UsuarioGrupoRoute(self._app)
