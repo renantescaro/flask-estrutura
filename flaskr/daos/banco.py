@@ -34,7 +34,7 @@ class Banco:
     def executar(self):
         pass
 
-    
+
     def editar(self, campos, where):
         mycursor = self.mydb.cursor()
         sql = (' UPDATE ' + self.tabela +
