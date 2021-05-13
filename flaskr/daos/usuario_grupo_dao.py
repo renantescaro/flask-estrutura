@@ -1,11 +1,11 @@
 import json
 from flaskr.daos.banco import Banco
-from flaskr.entities.gupo_usuario import GrupoUsuario
+from flaskr.entities.usuario_grupo import UsuarioGrupo
 
 class UsuarioGrupoDao(Banco):
     def __init__(self):
-        self.tabela   = 'grupo_usuario'
-        self.entidade = GrupoUsuario
+        self.tabela   = 'usuario_grupo'
+        self.entidade = UsuarioGrupo
         super().__init__(
             self.tabela,
             self.entidade)
