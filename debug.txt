@@ -1,9 +1,0 @@
-03/05/2021 20:50:02: atualizar 1
-03/05/2021 21:30:14: atualizar 1
-03/05/2021 21:31:37: atualizar 1
-03/05/2021 21:31:59: atualizar 1
-03/05/2021 21:45:55:  INSERT INTO grupo_usuario (descricao) VALUES(vendedores)
-03/05/2021 21:46:51:  INSERT INTO grupo_usuario (descricao) VALUES("vendedores')
-03/05/2021 21:47:07:  INSERT INTO grupo_usuario (descricao) VALUES('vendedores')
-03/05/2021 21:47:48:  INSERT INTO grupo_usuario (descricao) VALUES('vendedores')
-03/05/2021 21:50:30: None
