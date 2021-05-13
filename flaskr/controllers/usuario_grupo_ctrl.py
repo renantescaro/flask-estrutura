@@ -1,6 +1,6 @@
 import json
 from flask import Flask, jsonify, render_template, request, redirect, url_for, session
-from flaskr.daos.grupo_usuario_dao import GrupoUsuarioDao
+from flaskr.daos.usuario_grupo_dao import UsuarioGrupoDao
 from flaskr.entities.gupo_usuario import GrupoUsuario
 from flaskr.utils.debug import Debug
 
@@ -8,7 +8,7 @@ class UsuarioGrupoCtrl:
     def listar(self):
         return render_template(
             'listagem_padrao.html',
-            dados  = GrupoUsuarioDao().selecionar_json(),
+            dados  = UsuarioGrupoDao().selecionar_json(),
             chaves = json.dumps([
                 {
                     'campo'  : 'id',
@@ -29,7 +29,7 @@ class UsuarioGrupoCtrl:
 
 
     def editar(self, id):
-        dados_grupo = GrupoUsuarioDao().selecionar_obj(
+        dados_grupo = UsuarioGrupoDao().selecionar_obj(
             where =' id = '+ str(id) )
 
         grupo = dados_grupo[0]
@@ -40,7 +40,7 @@ class UsuarioGrupoCtrl:
     
     def inserir(self):
         descricao = request.form.get('descricao')
-        GrupoUsuarioDao().inserir(
+        UsuarioGrupoDao().inserir(
             campos  = 'descricao',
             valores = "'"+descricao+"'" )
         return redirect(url_for('usuario/grupo/listar'))
@@ -48,14 +48,14 @@ class UsuarioGrupoCtrl:
     
     def atualizar(self, id):
         descricao = request.form.get('descricao')
-        GrupoUsuarioDao().editar(
+        UsuarioGrupoDao().editar(
             campos = ' descricao="'+descricao+'"',
             where  = ' id='+ str(id) )
         return redirect(url_for('usuario/grupo/listar'))
 
 
     def deletar(self, id):
-        GrupoUsuarioDao().deletar(
+        UsuarioGrupoDao().deletar(
             id = id )
         return redirect(url_for('usuario/grupo/listar'))
 
