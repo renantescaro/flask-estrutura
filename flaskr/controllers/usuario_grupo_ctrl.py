@@ -1,11 +1,17 @@
 import json
-from flask import Flask, jsonify, render_template, request, redirect, url_for, session
+from flask import Blueprint, render_template, request, redirect, url_for
 from flaskr.daos.usuario_grupo_dao import UsuarioGrupoDao
 from flaskr.entities.usuario_grupo import UsuarioGrupo
 from flaskr.utils.debug import Debug
 
+bp  = Blueprint(
+    'usuario-grupo',
+    __name__,
+    template_folder='templates' )
+
 class UsuarioGrupoCtrl:
-    def listar(self):
+    @bp.route('/usuario/grupo/listar')
+    def listar():
         return render_template(
             'listagem_padrao.html',
             dados  = UsuarioGrupoDao().selecionar_json(),
@@ -22,23 +28,26 @@ class UsuarioGrupoCtrl:
             titulo = 'Listagem de Grupos de Usuários' )
 
 
-    def novo(self):
+    @bp.route('/usuario/grupo/novo')
+    def novo():
         return render_template('formulario_padrao.html',
-            dados  = self._campos(UsuarioGrupo()),
+            dados  = UsuarioGrupoCtrl._campos(UsuarioGrupo()),
             titulo = 'Novo Grupo de Usuários' )
 
 
-    def editar(self, id):
+    @bp.route('/usuario/grupo/<id>/editar')
+    def editar(id):
         dados_grupo = UsuarioGrupoDao().selecionar_obj(
             where =' id = '+ str(id) )
 
         grupo = dados_grupo[0]
         return render_template('formulario_padrao.html',
-            dados  = self._campos(grupo),
+            dados  = UsuarioGrupoCtrl._campos(grupo),
             titulo = 'Editar Grupo de Usuários' )
 
 
-    def inserir(self):
+    @bp.route('/usuario/grupo/salvar')
+    def inserir():
         descricao = request.form.get('descricao')
         UsuarioGrupoDao().inserir(
             campos  = 'descricao',
@@ -46,7 +55,8 @@ class UsuarioGrupoCtrl:
         return redirect(url_for('usuario/grupo/listar'))
 
 
-    def atualizar(self, id):
+    @bp.route('/usuario/grupo/<id>/salvar')
+    def atualizar(id):
         descricao = request.form.get('descricao')
         UsuarioGrupoDao().editar(
             campos = ' descricao="'+descricao+'"',
@@ -54,13 +64,14 @@ class UsuarioGrupoCtrl:
         return redirect(url_for('usuario/grupo/listar'))
 
 
-    def deletar(self, id):
+    @bp.route('/usuario/grupo/<id>/excluir')
+    def deletar(id):
         UsuarioGrupoDao().deletar(
             id = id )
         return redirect(url_for('usuario/grupo/listar'))
 
 
-    def _campos(self, entidade):
+    def _campos(entidade):
         dados_formulario = []
         dados_formulario.append({
             'tag'   : 'input',
