@@ -1,5 +1,7 @@
-from flask import Flask, render_template, jsonify, url_for, send_file, redirect, session, request
-from flaskr.routes.rotas import Rotas
+from flask import Flask
+from flaskr.controllers.login_ctrl import bp as bp_login
+from flaskr.controllers.usuario_ctrl import bp as bp_usuario
+from flaskr.controllers.usuario_grupo_ctrl import bp as bp_usuario_grupo
 
 def create_app(test_config=None):
     app = Flask(__name__, 
@@ -10,7 +12,10 @@ def create_app(test_config=None):
     app.config.from_mapping(
         SECRET_KEY   = 'super secret key',
         SESSION_TYPE = 'filesystem',
-        JSONIFY_PRETTYPRINT_REGULAR = False
-    )
-    Rotas(app)
+        JSONIFY_PRETTYPRINT_REGULAR = False )
+
+    app.register_blueprint(bp_login)
+    app.register_blueprint(bp_usuario)
+    app.register_blueprint(bp_usuario_grupo)
+
     return app
