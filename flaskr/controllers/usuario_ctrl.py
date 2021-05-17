@@ -16,7 +16,7 @@ class UsuarioCtrl:
     def listar():
         return render_template(
             'usuario/listagem.html',
-            dados  = UsuarioDao().selecionar_json('id, usuario'),
+            dados  = UsuarioDao().selecionar_com_grupo_json(),
             chaves = json.dumps([
                 {
                     'campo'  : 'id',
@@ -51,8 +51,8 @@ class UsuarioCtrl:
             dados  = UsuarioCtrl._campos(dados_usuario[0]),
             titulo = 'Editar Usuário' )
 
-    # metodo post
-    @bp.route('/usuario/salvar')
+
+    @bp.route('/usuario/salvar', methods=['POST'])
     def inserir():
         usuario = request.form.get('usuario')
         grupo   = request.form.get('grupo')
@@ -66,23 +66,23 @@ class UsuarioCtrl:
         UsuarioDao().inserir(
             campos  = 'usuario, senha, id_grupo',
             valores = "'"+usuario+"','"+senha+"',"+str(grupo) )
-        return redirect(url_for('usualio/listar'))
+        return redirect('/usuario/listar')
 
-    # metodo post
-    @bp.route('/usuario/<id>/salvar')
+
+    @bp.route('/usuario/<id>/salvar', methods=['POST'])
     def atualizar(id):
         descricao = request.form.get('descricao')
         UsuarioDao().editar(
             campos = ' descricao="'+descricao+'"',
             where  = ' id='+ str(id) )
-        return redirect(url_for('usualio/listar'))
+        return redirect('/usuario/listar')
 
 
     @bp.route('/usuario/<id>/excluir')
     def deletar(id):
-        UsuarioGrupoDao().deletar(
+        UsuarioDao().deletar(
             id = id )
-        return redirect(url_for('usuario/listar') )
+        return redirect('/usuario/listar' )
 
 
     def _campos(entidade:Usuario):
@@ -106,13 +106,13 @@ class UsuarioCtrl:
             'class' : 'form-control'
         })
         dados_formulario.append({
-            'conteudo_tag' : UsuarioCtrl._itens_grupo(),
+            'itens' : UsuarioCtrl._itens_grupo(),
             'tag'   : 'select',
             'id'    : 'grupo',
             'tipo'  : 'select',
             'name'  : 'grupo',
             'label' : 'Grupo',
-            'value' : None,
+            'value' : entidade.grupo,
             'class' : 'form-select',
         })
         dados_formulario.append({
@@ -128,7 +128,7 @@ class UsuarioCtrl:
 
 
     def _itens_grupo():
-        options = ''
+        options = []
         for grupo in UsuarioGrupoDao().selecionar_obj():
-            options = options + '<option value="'+str(grupo.id)+'">'+grupo.descricao+'</option>'
+            options.append( { 'valor':grupo.id, 'descricao':grupo.descricao } )
         return options
