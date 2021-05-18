@@ -1,17 +1,35 @@
 <div class="form-group">
     <form action="salvar" method="POST">
-        {% for d in dados %}
-            <label for="{{d.id}}">{{d.label}}</label>
-            {% if d.tag == 'input': %}
-                <input type="{{d.tipo}}" class="{{d.class}}" id="{{d.id}}" name="{{d.name}}" value="{{ '' if d.value==None else d.value }}"/>
-            {% else %}
-                <{{d.tag}} type="{{d.tipo}}" class="{{d.class}}" id="{{d.id}}" name="{{d.name}}" value="{{ '' if d.value==None else d.value }}">
-                    {{d.conteudo_tag}}
-                </{{d.tag}}>
-            {% endif %}
-        {% endfor %}
+        <div class="row">
+            {% for d in dados %}
+                <div class="col-md-{{d.colmd}} col-12">
+                    <label for="{{d.id}}">{{d.label}}</label>
+                    {% if d.tag == 'input': %}
+                        <input type="{{d.tipo}}" class="{{d.class}}" id="{{d.id}}" 
+                            name="{{d.name}}" value="{{ '' if d.value==None else d.value }}"/>
+                    {% elif d.tag == 'select': %}
+                        <select class="{{d.class}}" id="{{d.id}}" name="{{d.name}}" value="{{d.value}}" onload="selecionarOption(this)">
+                            {% for item in d.itens %}
+                                <option value="{{item.valor}}">{{item.descricao}}</option>
+                            {% endfor %}
+                        </select>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
         <br>
         <button class="btn btn-primary">Salvar</button>
         <button class="btn btn-danger">Cancelar</button>
     </form>
 </div>
+
+<script>
+    window.addEventListener("load",function(){
+        let selects = document.getElementsByTagName("select")
+        for(let i=0; i<selects.length;i++){
+            if(selects[i].value == i){
+                selects[i].selectedIndex = i
+            }
+        }
+    },false)
+</script>
