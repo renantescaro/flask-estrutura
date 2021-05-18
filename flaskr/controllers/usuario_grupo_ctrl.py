@@ -21,8 +21,8 @@ class UsuarioGrupoCtrl:
                     'titulo' : 'Id',
                     'busca'  : 'input'
                 },{
-                    'campo'  : 'usuario',
-                    'titulo' : 'Usuário',
+                    'campo'  : 'descricao',
+                    'titulo' : 'Descrição',
                     'busca'  : 'input'
                 } ]),
             titulo = 'Listagem de Grupos de Usuários' )
@@ -46,29 +46,29 @@ class UsuarioGrupoCtrl:
             titulo = 'Editar Grupo de Usuários' )
 
 
-    @bp.route('/usuario/grupo/salvar')
+    @bp.route('/usuario/grupo/salvar', methods=['POST'])
     def inserir():
         descricao = request.form.get('descricao')
         UsuarioGrupoDao().inserir(
             campos  = 'descricao',
             valores = "'"+descricao+"'" )
-        return redirect(url_for('usuario/grupo/listar'))
+        return redirect('/usuario/grupo/listar')
 
 
-    @bp.route('/usuario/grupo/<id>/salvar')
+    @bp.route('/usuario/grupo/<id>/salvar', methods=['POST'])
     def atualizar(id):
         descricao = request.form.get('descricao')
         UsuarioGrupoDao().editar(
             campos = ' descricao="'+descricao+'"',
             where  = ' id='+ str(id) )
-        return redirect(url_for('usuario/grupo/listar'))
+        return redirect('/usuario/grupo/listar')
 
 
     @bp.route('/usuario/grupo/<id>/excluir')
     def deletar(id):
         UsuarioGrupoDao().deletar(
             id = id )
-        return redirect(url_for('usuario/grupo/listar'))
+        return redirect('/usuario/grupo/listar')
 
 
     def _campos(entidade):
