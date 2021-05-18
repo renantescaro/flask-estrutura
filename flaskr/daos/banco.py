@@ -31,8 +31,10 @@ class Banco:
             unpicklable=False )
 
 
-    def executar(self):
-        pass
+    def selecionar_personalizado(self, sql):
+        mycursor = self.mydb.cursor()
+        mycursor.execute(sql)
+        return mycursor.fetchall()
 
 
     def editar(self, campos, where):
